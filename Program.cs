@@ -1,25 +1,25 @@
 ﻿using LibGit2Sharp;
 
-static class Public
+static class Program
 {
     internal static void Main(string[] args)
     {
         List<string> authors = new List<string>();
         Dictionary<string, int> commitReport = new Dictionary<string, int>();
 
-        using (var repo = new Repository(@"."))
+        using (var repo = new Repository(Directory.GetCurrentDirectory()))
         {
             foreach (var c in repo.Commits)
             {
-                if (!authors.Contains(c.Author.Email))
+                if (!authors.Contains(c.Author.Name))
                 {
-                    authors.Add(c.Author.Email);
+                    authors.Add(c.Author.Name);
                 }
             }
             
             foreach (var a in authors)
             {
-                int commitCount = repo.Commits.OrderBy(a => a.Author).Count();
+                int commitCount = repo.Commits.Where(r => r.Author.Name == a).Count();
                 commitReport.Add(a, commitCount);
             }
 
