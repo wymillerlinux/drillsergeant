@@ -1,0 +1,5 @@
+### binaries and objects ###
+bin/
+obj/
+publish/
+
