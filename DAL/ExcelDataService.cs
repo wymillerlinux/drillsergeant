@@ -19,7 +19,8 @@ public class ExcelDataService : IDataService
     {
         _dateTime = DateTime.Now.ToString("yyyyMMdd");
         _fileName = $"CommitReport-{_dateTime}.xlsx";
-        _pathName = Directory.GetCurrentDirectory() + _fileName;
+        _pathName = Directory.GetCurrentDirectory() + "/" + _fileName;
+        System.Console.WriteLine(_pathName);
         _xlsxFile = SpreadsheetDocument.Create(_pathName, SpreadsheetDocumentType.Workbook);
         _xlsxWorkbookPart = _xlsxFile.AddWorkbookPart();
         _xlsxWorkbookPart.Workbook = new Workbook();
