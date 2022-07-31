@@ -4,30 +4,25 @@ static class Program
 {
     internal static void Main(string[] args)
     {
-        List<string> authors = new List<string>();
-        Dictionary<string, int> commitReport = new Dictionary<string, int>();
-
-        using (var repo = new Repository(Directory.GetCurrentDirectory()))
+        try 
         {
-            foreach (var c in repo.Commits)
-            {
-                if (!authors.Contains(c.Author.Name))
-                {
-                    authors.Add(c.Author.Name);
-                }
-            }
-            
-            foreach (var a in authors)
-            {
-                int commitCount = repo.Commits.Where(r => r.Author.Name == a).Count();
-                commitReport.Add(a, commitCount);
-            }
-
+            CommitDetail commits = new CommitDetail();
+            commits.GetAllCommitsByName();
+            // SortedList<string, int> results = commits.OrderCommitsByCount();
+            //StdOutDataService outDataService = new StdOutDataService();
+            ExcelDataService excelDataService = new ExcelDataService();
+            //DataAccess dataAccess = new DataAccess(outDataService);
+            DataAccess dataAccess = new DataAccess(excelDataService);
+            dataAccess.WriteData(commits.CommitDetails);
         }
-
-        foreach (var r in commitReport)
+        catch (System.IO.DirectoryNotFoundException e)
         {
-            System.Console.WriteLine($"{r.ToString()}");
+            Console.WriteLine($"Are you in a git repository? {e}");
+            Environment.Exit(1);
+        }
+        catch (System.Exception e)
+        {
+            Console.WriteLine(e);
         }
     }
 }
