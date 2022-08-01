@@ -3,3 +3,14 @@ bin/
 obj/
 publish/
 
+### junk ###
+.idea/
+.vs/
+.vscode/
+
+### file creation ###
+*.doc
+*.docx
+*.xls
+*.xlsx
+*.pdf
