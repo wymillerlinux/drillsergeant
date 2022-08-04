@@ -1,0 +1,99 @@
+# DrillSergeant
+
+Get a tally of contributors' commits.
+
+Written by Wyatt J. Miller, copyright 2022
+
+Licensed by the Mozilla Public License v2.0 (see [LICENSE](./LICENSE.md))
+
+###### Table of Contents
+
+- [Overview](#overview)
+- [Installation](#installation)
+  - [Release](#release)
+  - [Source](#source)
+    - [Prerequisites](#prerequisites)
+    - [Prepare](#prepare)
+    - [Build](#build)
+- [Known Issues](#known-issues)
+- [Next Steps/Contributing](#next-steps)
+- [Troubleshooting](#troubleshooting)
+- [Attribution](#attribution)
+
+## Overview
+
+When I was in university, I wanted a program that would tally up my git commits in a certain project that I'm working on. Based on search engine ninja skills, I couldn't find a program that did this. I decided to scratch my own itch.
+
+I present DrillSergeant, where you can get a tally of the contributors' commits in a certain project. Additionally, you can filter by branch to get commits by branch. 
+
+## Usage
+
+Please see the wiki for information.
+
+## Installation
+
+There's are two forms of installation: releases and building from sources. This readme goes through both.
+
+### Releases
+
+You may get releases from the [releases page](https://scm.wyattjmiller.com/wymiller/DrillSergeant/releases). This is the recommended way to start using DrillSergeant.
+
+There will be three separate downloads: Windows (x86 64-bit), Linux (x86 64-bit), and Linux (ARM 64-bit), dubbed win64, linux64, and linuxaarch64 respectively.
+
+Once downloaded and extracted, you can move it to your `$PATH`.
+
+If you do not have any of these platforms, read on to source installation as that's the next best option.
+
+### Source
+
+#### Prerequisites
+
+You need the following to be able to build DrillSergeant:
+
+- .NET 6 (available for Windows, macOS, and modern Linux distributions)
+- git
+
+#### Prepare
+
+First, clone the repository with git:
+
+```bash
+git clone https://scm.wyattjmiller.com/wymiller/DrillSergeant
+```
+
+Then, change directories to where you've cloned DrillSergeant:
+
+```bash
+cd path/to/DrillSergeant
+```
+
+#### Build
+
+Then, to build a full release of DrillSergeant (you can change the runtime to whatever fits your platform. You can learn more about this [here](https://docs.microsoft.com/en-us/dotnet/core/rid-catalog)):
+
+```bash
+dotnet publish DrillSergeant.csproj --configuration Release --framework net6.0 --output publish --self-contained True --runtime linux-x64 --verbosity Normal /property:PublishTrimmed=True /property:PublishSingleFile=True /property:IncludeNativeLibrariesForSelfExtract=True /property:DebugType=None /property:DebugSymbols=False
+```
+
+Then, you can find the binary in the `publish/` directory. You can move this executable to somewhere in the `$PATH` or you make a new enviroment variable to be integrated into your `$PATH`.
+
+## Known Issues
+
+- A user must be in the root of a git project in order for this program to run.
+
+## Next Steps/Contributing
+
+- See the [contributing](./CONTRIBUTING.md) file!
+
+## Troubleshooting
+
+Please file a issue on the issue page and I will get back with you as soon as possible.
+
+## Attribution
+
+Thank you to the developers, engineers, project managers, and contributors of the following projects - you make this program possible!
+
+- [LibGit2Sharp](https://github.com/libgit2/libgit2sharp/)
+- [OpenXML](https://docs.microsoft.com/en-us/office/open-xml/open-xml-sdk)
+- [System.CommandLine](https://github.com/dotnet/command-line-api)
+- [Pastel](https://github.com/silkfire/Pastel)
