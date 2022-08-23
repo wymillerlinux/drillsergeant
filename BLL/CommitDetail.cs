@@ -93,11 +93,19 @@ public class CommitDetail
         {
             var branchResult = repo.Branches[branchName];
 
-            if (branchResult == null)
+            try
             {
-                branchResult = repo.Branches[$"origin/{branchName}"];
-                var remoteBranch = repo.CreateBranch(branchName, branchResult.Tip);
-                repo.Branches.Update(remoteBranch, b => b.UpstreamBranch = $"refs/heads/{branchName}");
+                if (branchResult == null)
+                {
+                    branchResult = repo.Branches[$"origin/{branchName}"];
+                    var remoteBranch = repo.CreateBranch(branchName, branchResult.Tip);
+                    repo.Branches.Update(remoteBranch, b => b.UpstreamBranch = $"refs/heads/{branchName}");
+                }   
+            }
+            catch (System.Exception)
+            {
+                Console.WriteLine($"Cannot fetch {branchName} branch.");
+                Environment.Exit(1);
             }
 
             foreach (var c in branchResult.Commits)
@@ -120,8 +128,36 @@ public class CommitDetail
     {
         using (var repo = new Repository(Directory.GetCurrentDirectory()))
         {
-            var tagResult = repo.Tags[tagName];
-            System.Console.WriteLine(tagResult);
+            try
+            {
+                var tagResult = repo.Tags[tagName].Target.Sha;
+                
+                var commitFilter = new CommitFilter
+                {
+                    IncludeReachableFrom = tagResult,
+                };
+
+                var query = repo.Commits.QueryBy(commitFilter);
+
+                foreach (var c in query)
+                {
+                    if (!_authors.Contains(c.Author.Name))
+                    {
+                        _authors.Add(c.Author.Name);
+                    }
+                }
+
+                foreach (var a in _authors)
+                {
+                    int commitCount = query.Where(r => r.Author.Name == a).Count();
+                    _commitDetails.Add(a, commitCount);
+                }
+            }
+            catch (System.Exception)
+            {
+                Console.WriteLine($"Cannot find the tag {tagName}");
+                Environment.Exit(3);
+            }
         }
     }
 }
