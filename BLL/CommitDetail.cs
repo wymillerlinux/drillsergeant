@@ -120,8 +120,29 @@ public class CommitDetail
     {
         using (var repo = new Repository(Directory.GetCurrentDirectory()))
         {
-            var tagResult = repo.Tags[tagName];
-            System.Console.WriteLine(tagResult);
+            var tagResult = repo.Tags[tagName].Target.Sha;
+
+            var commitFilter = new CommitFilter
+            {
+                IncludeReachableFrom = tagResult,
+            };
+
+            var query = repo.Commits.QueryBy(commitFilter);
+
+            foreach (var c in query)
+            {
+                if (!_authors.Contains(c.Author.Name))
+                {
+                    _authors.Add(c.Author.Name);
+                }
+            }
+
+            foreach (var a in _authors)
+            {
+                int commitCount = query.Where(r => r.Author.Name == a).Count();
+                _commitDetails.Add(a, commitCount);
+            }
+            
         }
     }
 }
