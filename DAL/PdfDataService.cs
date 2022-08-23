@@ -1,8 +1,5 @@
-using PdfSharpCore;
 using PdfSharpCore.Drawing;
 using PdfSharpCore.Pdf;
-using PdfSharpCore.Pdf.IO;
-using Pastel;
 
 public class PdfDataService : IDataService
 {
@@ -38,7 +35,7 @@ public class PdfDataService : IDataService
         foreach (var i in sortedResults)
         {
             gfx.DrawString($"{i.Key}: {i.Value}", fontDetails, XBrushes.Black, new XRect(0, positionValue, page.Width, page.Width), XStringFormats.TopCenter);
-            positionValue += 30;
+            positionValue += 25;
         }
 
         document.Save(_fileName);
