@@ -7,7 +7,7 @@ static class Program
         var outputOption = new Option<string>(
                 "--output",
                 "Specify the output given to the user"
-                ).FromAmong("stdout", "xlsx");
+                ).FromAmong("stdout", "xlsx", "pdf");
         outputOption.AddAlias("-o");
 
         var branchOption = new Option<string>(
@@ -56,6 +56,22 @@ static class Program
                                 default:
                                     commits.GetCommitsByBranch(branchOptionValue);
                                     dataAccessExcelCase.WriteData(commits.CommitDetails);
+                                    break;
+                            }
+                            break;
+                        case "pdf":
+                            PdfDataService pdfDataService = new PdfDataService();
+                            DataAccess dataAccessPdfCase = new DataAccess(pdfDataService);
+
+                            switch (branchOptionValue) 
+                            {
+                                case null:
+                                    commits.GetCurrentCommitsByName();
+                                    dataAccessPdfCase.WriteData(commits.CommitDetails);
+                                    break;
+                                default:
+                                    commits.GetCommitsByBranch(branchOptionValue);
+                                    dataAccessPdfCase.WriteData(commits.CommitDetails);
                                     break;
                             }
                             break;

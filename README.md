@@ -9,6 +9,7 @@ Licensed by the Mozilla Public License v2.0 (see [LICENSE](./LICENSE.md))
 ###### Table of Contents
 
 - [Overview](#overview)
+- [Usage](#usage)
 - [Installation](#installation)
   - [Release](#release)
   - [Source](#source)
@@ -24,23 +25,85 @@ Licensed by the Mozilla Public License v2.0 (see [LICENSE](./LICENSE.md))
 
 When I was in university, I wanted a program that would tally up my git commits in a certain project that I'm working on. Based on search engine ninja skills, I couldn't find a program that did this. I decided to scratch my own itch.
 
-I present DrillSergeant, where you can get a tally of the contributors' commits in a certain project. Additionally, you can filter by branch to get commits by branch. 
+I present DrillSergeant. This is a command-line application to tally up commits, ordered by commit count per contributor. In other words, DrillSergeant orders the contributors by how many commits they have made in descending order. For example, the first contributor listed will have the most commits in the project. The second contributor will have the second most commits, and so on.
 
 ## Usage
 
-Please see the wiki for information.
+To use this command-line application, you must be in a git project. Otherwise, a nasty error will appear and you won't get your report. You can filter by branch or by tag (cannot be both, another nasty error appears here). You can get your report in your terminal, in a spreadsheet, or a PDF.
+
+### Command-line arguments
+
+```bash
+  -o, --output <pdf|stdout|xlsx>  Specify the output given to the user
+  -b, --branch <branch>           Specify the branch to filter by
+  -t, --tag <tag>                 Specify the tag to filter by
+```
+
+Throw the `-h` flag for quick assistance. Throw the `--version` flag for version information.
+
+### Examples
+
+To get a commit report to your terminal:
+
+```bash
+drillsergeant -o stdout
+```
+
+Or you can simply:
+
+```bash
+drillsergeant
+```
+
+To get a commit report to your terminal filtered by the `devel` branch:
+
+```
+drillsergeant -b devel
+```
+
+To get a commit report to a spreadsheet:
+
+```bash
+drillsergeant -o xlsx
+```
+
+To get a commit report to a PDF file filtered by the `devel` branch:
+
+```bash
+drillsergeant -o pdf -b devel
+```
+
+Got too many contributors to fit onto your terminal? Run this by installing [bat](https://github.com/sharkdp/bat):
+
+```bash
+drillsergeant | bat
+```
 
 ## Installation
 
 There's are two forms of installation: releases and building from sources. This readme goes through both.
 
-### Releases
+### Release
 
 You may get releases from the [releases page](https://scm.wyattjmiller.com/wymiller/DrillSergeant/releases). This is the recommended way to start using DrillSergeant.
 
 There will be three separate downloads: Windows (x86 64-bit), Linux (x86 64-bit), and Linux (ARM 64-bit), dubbed win64, linux64, and linuxaarch64 respectively.
 
 Once downloaded and extracted, you can move it to your `$PATH`.
+
+On Windows (Powershell):
+
+```powershell
+Copy-Item drillsergeant C:\Windows\
+```
+
+On Linux:
+
+```bash
+cp drillsergeant /usr/local/bin
+```
+
+The following commands assume you have elevated privileges.
 
 If you do not have any of these platforms, read on to source installation as that's the next best option.
 
@@ -97,3 +160,5 @@ Thank you to the developers, engineers, project managers, and contributors of th
 - [OpenXML](https://docs.microsoft.com/en-us/office/open-xml/open-xml-sdk)
 - [System.CommandLine](https://github.com/dotnet/command-line-api)
 - [Pastel](https://github.com/silkfire/Pastel)
+- [PdfSharpCore](https://github.com/ststeiger/PdfSharpCore)
+
