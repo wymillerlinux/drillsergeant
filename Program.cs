@@ -130,7 +130,7 @@ static class Program
                             break;
                         default:
                             System.Console.WriteLine("This should not happen...");
-                            Environment.Exit(90);
+                            Environment.Exit(4);
                             break;
                     }
                 },
